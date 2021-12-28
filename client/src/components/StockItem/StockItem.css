@@ -1,0 +1,14 @@
+.StockItem {
+  min-width: 250px;
+  flex-basis: calc(100% / 3 - 60px);
+  padding: 20px;
+  border: 1px solid #779398;
+  background-color: #bcd9de;
+  border-radius: 20px;
+}
+
+.StockItem__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
