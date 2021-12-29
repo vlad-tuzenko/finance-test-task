@@ -16,6 +16,15 @@ const tickers = [
   'TSLA', // Tesla
 ];
 
+let lastPrice = {
+  'AAPL': 1,
+  'GOOGL': 1,
+  'MSFT': 1,
+  'AMZN': 1,
+  'FB': 1,
+  'TSLA': 1,
+};
+
 function randomValue(min = 0, max = 1, precision = 0) {
   const random = Math.random() * (max - min) + min;
   return random.toFixed(precision);
@@ -28,16 +37,24 @@ function utcDate() {
 
 function getQuotes(socket) {
 
-  const quotes = tickers.map(ticker => ({
+  const quotes = tickers.map(ticker => {
+    const price = randomValue(100, 300, 2);
+    const change = Math.floor(Number(price) - Number(lastPrice[ticker]));
+    const change_percent = Math.floor(Number(price) * 100 / Number(lastPrice[ticker])) - 100;
+
+    return {
     ticker,
     exchange: 'NASDAQ',
-    price: randomValue(100, 300, 2),
-    change: randomValue(0, 200, 2),
-    change_percent: randomValue(0, 1, 2),
+    price,
+    change,
+    change_percent,
     dividend: randomValue(0, 1, 2),
     yield: randomValue(0, 2, 2),
     last_trade_time: utcDate(),
-  }));
+    }
+  });
+
+  quotes.forEach(stock => lastPrice[stock.ticker] = stock.price);
 
   socket.emit('ticker', quotes);
 }

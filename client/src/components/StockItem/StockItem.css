@@ -2,13 +2,51 @@
   min-width: 250px;
   flex-basis: calc(100% / 3 - 60px);
   padding: 20px;
-  border: 1px solid #779398;
+  border: 2px solid #779398;
   background-color: #bcd9de;
   border-radius: 20px;
+}
+
+.StockItem--green {
+  border-color: green;
+  animation: greenColor 5s infinite;
+}
+
+.StockItem--red {
+  border-color: red;
+  animation: redColor 5s infinite;
 }
 
 .StockItem__row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+@keyframes redColor {
+  0% {
+    background-color: #bcd9de;
+  }
+
+  50% {
+    background-color: rgb(221, 98, 98);
+  }
+
+  100% {
+    background-color: #bcd9de;
+  }
+}
+
+@keyframes greenColor {
+  0% {
+    background-color: #bcd9de;
+  }
+
+  50% {
+    background-color: rgb(64, 170, 64);
+  }
+
+  100% {
+    background-color: #bcd9de;
+  }
 }

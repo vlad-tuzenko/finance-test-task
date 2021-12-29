@@ -5,9 +5,16 @@ export const StockItem = ({ stock }) => {
   const { 
     ticker, price, exchange, change, change_percent, dividend, yield: yieldd,
   } = stock; 
+  let className = 'StockItem';
+  
+  if (change > 0) {
+    className += ' StockItem--green';
+  } else {
+    className += ' StockItem--red';
+  }
 
   return (
-    <li className="StockItem">
+    <li className={className}>
       <div className="StockItem__row">
         <p>Ticker: </p>
         <p>{`${ticker} on ${exchange}`}</p>
