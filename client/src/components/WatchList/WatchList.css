@@ -1,6 +1,7 @@
 .WatchList {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 50px;
   margin-bottom: 20px;
@@ -8,11 +9,19 @@
 
 .WatchList__parts {
   padding: 0px 20px;
+  min-width: 465px;
   flex-basis: calc(100% / 2 - 250px);
   height: 100px;
   border: 1px solid;
   border-radius: 20px;
+  background-color: #bcd7dc;
 }
+
+.WatchList__title {
+  border-bottom: 1px solid;
+  margin-bottom: 5px;
+}
+
 .WatchList__list {
   display: flex;
   flex-direction: row;
@@ -22,8 +31,19 @@
 
 .WatchList__item {
   width: 90px;
+  padding: 0 5px;
   display: flex;
   justify-content: space-between;
   list-style: none;
-  border: 1px solid;
+  border: 1px solid #2f748a;
+  border-radius: 5px;
+  background-color: #9dc1cc;
+}
+
+.WatchList__item:hover {
+  background-color: #7d9faa;
+}
+
+.WatchList__item-btn {
+  cursor: pointer;
 }
