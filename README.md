@@ -1,3 +1,4 @@
+# React finance-test-task
 1. In this task, I connect to the server using socket.io library.
 2. I have changed the data that the server sends to the client. Now instead of random numbers in the graphs 'change' and 'change__percent' the result is calculated.
 3. Thanks to this, I made a visual color change when the price changes (rises or falls).
@@ -6,7 +7,7 @@
 
 <hr>
 
-Running the local service:
+## Running the local service:
 1. Open a new bash shell
 2. ``cd server``
 3. ``npm install`` or ``yarn install``
@@ -16,7 +17,7 @@ You can visit http://localhost:4000 to check that the service is working correct
 
 <hr>
 
-Run your application:
+## Run your application:
 1. Open a new bash shell
 2. ``cd client``
 3. ``npm install`` or ``yarn install``
