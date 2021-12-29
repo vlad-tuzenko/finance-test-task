@@ -8,6 +8,9 @@ function App() {
 const [stocks, setStocks] = useState(null);
 const [watchList, setWatchList] = useState(['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'FB', 'TSLA']);
 const [stocksList, setStocksList] = useState([]);
+const [interval, setInterval] = useState(5000);
+
+const socket = io('http://localhost:4000');
 
 useEffect(
   () => {
@@ -17,8 +20,6 @@ useEffect(
   }, [watchList]
 )
 
-const socket = io('http://localhost:4000');
-
 const getData = () => {
   socket.on("connect", () => {
     console.log('Connected: ', socket.connected);
@@ -26,20 +27,14 @@ const getData = () => {
 
     socket.on("ticker", (tickers) => {
       const result = tickers.filter(ticker => (watchList.includes(ticker.ticker)))
-      console.log(result);
       setStocks(result);
-    })
-
-    socket.on("disconect", () => {
-      socket.off("connect");
-      socket.offAny();
-      console.log('Connected: ', socket.connected);
     })
   });
 }
 
 const unsubscribe = () => {
   socket.disconnect()
+  console.log('Connected: ', socket.connected)
 }
 
 const deleteTickerFromWatchList = (ticker) => {
@@ -58,6 +53,16 @@ const addTickerToWatchList = (ticker) => {
   setStocksList(copyStocksList);
 }
 
+const changeInterval = (event) => {
+  setInterval(event.target.value);
+}
+
+const submitInterval = () => {
+  socket.emit("changeInterval", (interval));
+  unsubscribe();
+  setWatchList([...watchList]);
+}
+
   return (
     <div className="App">
       <h1 className="App__title">Your stock portfolio: </h1>
@@ -67,6 +72,13 @@ const addTickerToWatchList = (ticker) => {
         deleteTicker={deleteTickerFromWatchList}
         addTicker={addTickerToWatchList}
       />
+      <div className="App__interval Interval">
+        <h2 className="Interval__title">Update interval: </h2>
+        <form className="Interval__form">
+          <input type="number" value={interval} onChange={changeInterval}></input>
+          <button type="button" onClick={() => submitInterval()}>Change</button>
+        </form>
+      </div>
       <ul className="App__list">
         {stocks && stocks.map(stock => (
           <StockItem stock={stock} key={stock.ticker} />

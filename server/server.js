@@ -4,7 +4,7 @@ const http = require('http');
 const io = require('socket.io');
 const cors = require('cors');
 
-const FETCH_INTERVAL = 5000;
+let FETCH_INTERVAL = 5000;
 const PORT = process.env.PORT || 4000;
 
 const tickers = [
@@ -24,6 +24,8 @@ let lastPrice = {
   'FB': 1,
   'TSLA': 1,
 };
+
+let timer;
 
 function randomValue(min = 0, max = 1, precision = 0) {
   const random = Math.random() * (max - min) + min;
@@ -64,7 +66,7 @@ function trackTickers(socket) {
   getQuotes(socket);
 
   // every N seconds
-  const timer = setInterval(function() {
+  timer = setInterval(function() {
     getQuotes(socket);
   }, FETCH_INTERVAL);
 
@@ -89,6 +91,12 @@ app.get('/', function(req, res) {
 
 socketServer.on('connection', (socket) => {
   socket.on('start', () => {
+    trackTickers(socket);
+  });
+  socket.on('changeInterval', (interval) => {
+    clearInterval(timer);
+    console.log('Set new interval - ', interval)
+    FETCH_INTERVAL = +interval;
     trackTickers(socket);
   });
 });
